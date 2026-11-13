@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08080d">
+<title>WORLD CLASH 6 — Meme-Powered World Leaders</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <canvas id="game" width="1280" height="720" aria-label="World Clash 6 fighting game"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <!-- ===================== FIGHT HUD ===================== -->
+  <section id="hud" class="hud hidden" aria-label="Fight interface">
+    <div class="hud-top">
+      <div class="side p1">
+        <div class="meta">
+          <span class="flag" id="flag1">🇮🇳</span>
+          <span class="pname" id="name1">MODI</span>
+          <span class="ptag" id="tag1">P1</span>
+        </div>
+        <div class="hpwrap">
+          <div class="hpghost" id="ghost1"></div>
+          <div class="hpfill" id="hp1"></div>
+          <div class="hpline"></div>
+        </div>
+        <div class="pips" id="pips1"><i></i><i></i></div>
+      </div>
+
+      <div class="timerbox">
+        <div class="roundtag" id="roundTag">ROUND 1</div>
+        <div class="timer" id="timer">60</div>
+        <div class="stagelabel" id="stageTag">SUNSCORCHED SHOWDOWN</div>
+      </div>
+
+      <div class="side p2">
+        <div class="meta">
+          <span class="ptag" id="tag2">CPU</span>
+          <span class="pname" id="name2">TRUMP</span>
+          <span class="flag" id="flag2">🇺🇸</span>
+        </div>
+        <div class="hpwrap">
+          <div class="hpghost" id="ghost2"></div>
+          <div class="hpfill" id="hp2"></div>
+          <div class="hpline"></div>
+        </div>
+        <div class="pips right" id="pips2"><i></i><i></i></div>
+      </div>
+    </div>
+
+    <div class="combo c1" id="combo1"><b>0</b><span>HITS</span></div>
+    <div class="combo c2" id="combo2"><b>0</b><span>HITS</span></div>
+
+    <div class="announce" id="announce">
+      <div class="ann-main"></div>
+      <div class="ann-sub"></div>
+    </div>
+
+    <div class="hud-bottom">
+      <div class="super p1">
+        <div class="superlabel"><span>SUPER ART</span><b id="superName1">MANN KI BAAT</b></div>
+        <div class="superbar"><i id="meter1"></i><em></em></div>
+      </div>
+      <div class="hint" id="fightHint">A / D MOVE · W JUMP · S BLOCK · F PUNCH · G KICK · H SPECIAL · J SUPER</div>
+      <div class="super p2">
+        <div class="superlabel"><b id="superName2">YOU'RE FIRED</b><span>SUPER ART</span></div>
+        <div class="superbar"><i id="meter2"></i><em></em></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TITLE ===================== -->
+  <section id="title" class="screen title-screen" aria-label="Title screen">
+    <div class="title-top">
+      <div class="edition">PARODY EDITION · 2026</div>
+      <div class="rating">TEEN · CARTOON CHAOS</div>
+    </div>
+
+    <div class="logo-lockup">
+      <div class="logo-kicker"><span></span> THE MEME-POWERED FIGHTING CHAMPIONSHIP <span></span></div>
+      <h1 class="logo">
+        <span class="logo-world">WORLD</span>
+        <span class="logo-clash">CLASH</span>
+        <span class="logo-six">6</span>
+      </h1>
+      <div class="logo-sub">DEMOCRACY HAS A HEALTH BAR.</div>
+    </div>
+
+    <div class="title-menu">
+      <button class="menu-btn primary" data-mode="cpu"><span class="mb-num">01</span> VS CPU <small>TAKE ON THE MACHINE</small></button>
+      <button class="menu-btn" data-mode="local"><span class="mb-num">02</span> LOCAL 2P <small>COUCH DIPLOMACY</small></button>
+      <button class="menu-btn" data-mode="howto"><span class="mb-num">03</span> HOW TO PLAY <small>READ THE TREATY</small></button>
+    </div>
+
+    <div class="title-side">
+      <div class="sticker s1">MITRON!</div>
+      <div class="sticker s2">COVFEFE</div>
+      <div class="sticker s3">GEMOY</div>
+      <div class="sticker s4">LOAD SHEDDING</div>
+    </div>
+
+    <div class="title-foot">
+      <div class="scrolling-ticker"><div>BEAR RUSH ★ MITRON WAVE ★ SOCIAL CREDIT ★ AMMO DROP ★ COVFEFE ★ LOAD SHEDDING ★ ZIP LINE ★ BAGUETTE BOOMERANG ★ SPEED RUN ★ TIGER ROAR ★ GEMOY GROOVE ★&nbsp;</div><div aria-hidden="true">BEAR RUSH ★ MITRON WAVE ★ SOCIAL CREDIT ★ AMMO DROP ★ COVFEFE ★ LOAD SHEDDING ★ ZIP LINE ★ BAGUETTE BOOMERANG ★ SPEED RUN ★ TIGER ROAR ★ GEMOY GROOVE ★&nbsp;</div></div>
+      <div class="disclaimer">SATIRE / PARODY. CARTOON MOVES. NOT AFFILIATED WITH ANY PERSON, PARTY OR GOVERNMENT. NO REAL POLITICS WERE HARMED.</div>
+    </div>
+  </section>
+
+  <!-- ===================== CHARACTER SELECT ===================== -->
+  <section id="select" class="screen select-screen hidden" aria-label="Character select">
+    <header class="select-head">
+      <button class="icon-btn" id="backToTitle" aria-label="Back">←</button>
+      <div class="head-copy">
+        <div class="eyebrow" id="modeLabel">VS CPU</div>
+        <h2>CHOOSE YOUR <em>LEADER</em></h2>
+      </div>
+      <button class="icon-btn" id="randomBtn" aria-label="Random pick">⤨ RANDOM</button>
+    </header>
+
+    <div class="select-slots">
+      <div class="slot p1" id="slot1">
+        <div class="slot-tag">P1</div>
+        <canvas width="150" height="150" class="slot-face" id="slotFace1"></canvas>
+        <div class="slot-info"><b id="slotName1">AWAITING PICK</b><span id="slotPower1">—</span></div>
+      </div>
+      <div class="vs-mark">VS</div>
+      <div class="slot p2" id="slot2">
+        <div class="slot-tag" id="slotTag2">CPU</div>
+        <canvas width="150" height="150" class="slot-face" id="slotFace2"></canvas>
+        <div class="slot-info"><b id="slotName2">AWAITING PICK</b><span id="slotPower2">—</span></div>
+      </div>
+    </div>
+
+    <div class="roster-wrap">
+      <div class="roster" id="roster"></div>
+    </div>
+
+    <footer class="select-foot">
+      <div class="pick-help"><b id="pickHelp">P1 — PICK YOUR FIGHTER</b><span>SUPER MOVES ARE PURE MEME ENERGY</span></div>
+      <button class="big-btn" id="startFightBtn" disabled>ENTER THE ARENA</button>
+    </footer>
+  </section>
+
+  <!-- ===================== STAGE SELECT ===================== -->
+  <section id="stageSelect" class="screen stage-screen hidden" aria-label="Stage select">
+    <header class="select-head">
+      <button class="icon-btn" id="backToSelect" aria-label="Back">←</button>
+      <div class="head-copy">
+        <div class="eyebrow">FINAL DESTINATION</div>
+        <h2>PICK YOUR <em>BATTLEGROUND</em></h2>
+      </div>
+      <div class="head-note">3 ARENAS · 11 LEADERS · 0 DIPLOMATIC IMMUNITY</div>
+    </header>
+
+    <div class="stage-grid">
+      <button class="stage-card desert" data-stage="desert">
+        <div class="stage-art"><div class="sun"></div><div class="dunes"></div><div class="pyr"></div></div>
+        <div class="stage-copy"><b>01</b><h3>SUNSCORCHED<br>SHOWDOWN</h3><span>DUNE SEA · 47°C · NO WATER BREAK</span></div>
+      </button>
+      <button class="stage-card snow" data-stage="snow">
+        <div class="stage-art"><div class="aurora"></div><div class="mount"></div><div class="pines"></div></div>
+        <div class="stage-copy"><b>02</b><h3>FROZEN<br>FRONT</h3><span>POLAR ARENA · -32°C · MIND THE ICE</span></div>
+      </button>
+      <button class="stage-card india" data-stage="india">
+        <div class="stage-art"><div class="sunset"></div><div class="gate"></div><div class="skyline"></div></div>
+        <div class="stage-copy"><b>03</b><h3>DELHI<br>DUSK</h3><span>RANGOLI RING · 29°C · FESTIVAL NIGHT</span></div>
+      </button>
+    </div>
+    <div class="stage-foot">CLICK AN ARENA TO START THE MATCH</div>
+  </section>
+
+  <!-- ===================== VS SCREEN ===================== -->
+  <section id="vsScreen" class="screen vs-screen hidden" aria-label="Match versus">
+    <div class="vs-split left"></div>
+    <div class="vs-split right"></div>
+    <div class="vs-fighter l">
+      <canvas width="360" height="400" id="vsFace1"></canvas>
+      <div class="vs-name" id="vsName1">MODI</div>
+      <div class="vs-country" id="vsCountry1">INDIA</div>
+    </div>
+    <div class="vs-badge">VS</div>
+    <div class="vs-fighter r">
+      <canvas width="360" height="400" id="vsFace2"></canvas>
+      <div class="vs-name" id="vsName2">TRUMP</div>
+      <div class="vs-country" id="vsCountry2">USA</div>
+    </div>
+    <div class="vs-stage" id="vsStage">SUNSCORCHED SHOWDOWN</div>
+    <div class="vs-skip">CLICK TO SKIP</div>
+  </section>
+
+  <!-- ===================== RESULTS ===================== -->
+  <section id="results" class="screen results-screen hidden" aria-label="Match results">
+    <div class="result-burst"></div>
+    <div class="result-copy">
+      <div class="eyebrow">MATCH COMPLETE</div>
+      <h2 id="resultTitle">PLAYER 1 WINS</h2>
+      <div class="result-sub" id="resultSub">A NEW WORLD ORDER OF MEMES</div>
+    </div>
+    <div class="result-portrait"><canvas width="340" height="400" id="resultFace"></canvas></div>
+    <div class="result-actions">
+      <button class="menu-btn primary" id="rematchBtn"><span class="mb-num">↻</span> REMATCH</button>
+      <button class="menu-btn" id="resultSelectBtn"><span class="mb-num">☰</span> CHANGE LEADER</button>
+      <button class="menu-btn" id="resultTitleBtn"><span class="mb-num">⌂</span> TITLE SCREEN</button>
+    </div>
+    <div class="result-quote" id="resultQuote">“I'D LIKE TO THANK THE ALGORITHM.”</div>
+  </section>
+
+  <!-- ===================== PAUSE ===================== -->
+  <section id="pause" class="screen pause-screen hidden" aria-label="Paused">
+    <div class="pause-panel">
+      <div class="eyebrow">HOLD THE PHONE</div>
+      <h2>PAUSED</h2>
+      <button class="menu-btn primary" id="resumeBtn"><span class="mb-num">▶</span> RESUME</button>
+      <button class="menu-btn" id="restartBtn"><span class="mb-num">↻</span> RESTART MATCH</button>
+      <button class="menu-btn" id="quitBtn"><span class="mb-num">⌂</span> QUIT TO TITLE</button>
+      <div class="pause-hint">ESC / P TO RESUME · M TO MUTE</div>
+    </div>
+  </section>
+
+  <!-- ===================== HOW TO PLAY ===================== -->
+  <section id="howto" class="screen howto-screen hidden" aria-label="How to play">
+    <div class="howto-panel">
+      <button class="icon-btn close" id="closeHowto" aria-label="Close">✕</button>
+      <div class="eyebrow">THE TREATY OF BUTTONS</div>
+      <h2>HOW TO <em>PLAY</em></h2>
+      <div class="howto-grid">
+        <div class="how-block">
+          <h3>PLAYER 1</h3>
+          <div class="keyrow"><kbd>A</kbd><kbd>D</kbd><span>MOVE</span></div>
+          <div class="keyrow"><kbd>W</kbd><span>JUMP</span></div>
+          <div class="keyrow"><kbd>S</kbd><span>BLOCK</span></div>
+          <div class="keyrow"><kbd>F</kbd><span>PUNCH</span></div>
+          <div class="keyrow"><kbd>G</kbd><span>KICK</span></div>
+          <div class="keyrow"><kbd>H</kbd><span>SPECIAL</span></div>
+          <div class="keyrow"><kbd>J</kbd><span>SUPER (FULL METER)</span></div>
+        </div>
+        <div class="how-block">
+          <h3>PLAYER 2</h3>
+          <div class="keyrow"><kbd>←</kbd><kbd>→</kbd><span>MOVE</span></div>
+          <div class="keyrow"><kbd>↑</kbd><span>JUMP</span></div>
+          <div class="keyrow"><kbd>↓</kbd><span>BLOCK</span></div>
+          <div class="keyrow"><kbd>K</kbd><span>PUNCH</span></div>
+          <div class="keyrow"><kbd>L</kbd><span>KICK</span></div>
+          <div class="keyrow"><kbd>;</kbd><span>SPECIAL</span></div>
+          <div class="keyrow"><kbd>'</kbd><span>SUPER (FULL METER)</span></div>
+        </div>
+        <div class="how-block rules">
+          <h3>RULES OF ENGAGEMENT</h3>
+          <p>Best of three rounds. 60 seconds per round. Land hits to build SUPER meter. Fill it, then press SUPER to deploy your leader's signature meme.</p>
+          <p><b>BLOCK</b> reduces damage and builds a little meter. Specials have a short cooldown. Supers are free — emotionally, not politically.</p>
+          <p class="fine">Touch devices get on-screen controls automatically. On a phone, landscape is your friend.</p>
+        </div>
+      </div>
+      <button class="big-btn" id="howtoOk">UNDERSTOOD, MR. PRESIDENT</button>
+    </div>
+  </section>
+
+  <!-- ===================== TOUCH CONTROLS ===================== -->
+  <div id="touch" class="touch hidden" aria-label="Touch controls">
+    <div class="dpad">
+      <button class="tbtn dp up" data-touch="up" aria-label="Jump">▲</button>
+      <button class="tbtn dp left" data-touch="left" aria-label="Move left">◀</button>
+      <button class="tbtn dp block" data-touch="block" aria-label="Block">⛨</button>
+      <button class="tbtn dp right" data-touch="right" aria-label="Move right">▶</button>
+    </div>
+    <div class="touch-actions">
+      <button class="tbtn act punch" data-touch="punch" aria-label="Punch"><b>P</b><span>PUNCH</span></button>
+      <button class="tbtn act kick" data-touch="kick" aria-label="Kick"><b>K</b><span>KICK</span></button>
+      <button class="tbtn act special" data-touch="special" aria-label="Special"><b>✦</b><span>SPECIAL</span></button>
+      <button class="tbtn act act-super" data-touch="super" aria-label="Super"><b>★</b><span>SUPER</span></button>
+    </div>
+  </div>
+
+  <div class="corner-tools">
+    <button class="tool-btn" id="muteBtn" aria-label="Toggle sound" title="Sound (M)">♪</button>
+    <button class="tool-btn" id="pauseBtn" aria-label="Pause" title="Pause (Esc)">Ⅱ</button>
+  </div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
